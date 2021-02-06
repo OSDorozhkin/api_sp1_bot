@@ -4,9 +4,7 @@ import logging
 
 import requests
 import telegram
-from dotenv import load_dotenv
 
-load_dotenv()
 logging.basicConfig(
     level=logging.DEBUG,
     filename='main.log',
@@ -23,6 +21,8 @@ ADDITIONAL_URL = 'api/user_api/homework_statuses/'
 
 def parse_homework_status(homework):
     homework_name = homework['homework_name']
+    if homework['status'] == 'reviewing':
+        return f'Вашу работу {homework_name} начали проверять.'
     if homework['status'] == 'rejected':
         verdict = 'К сожалению в работе нашлись ошибки.'
     else:
@@ -40,7 +40,7 @@ def get_homework_statuses(current_timestamp):
     }
     homework_statuses = requests.get('{}{}'.format(YA_API_URL, ADDITIONAL_URL),
                                      params=params, headers=headers)
-    logging.info(f'JSON получен')
+    logging.info('JSON получен')
     return homework_statuses.json()
 
 
@@ -62,11 +62,11 @@ def main():
                 logging.info('Сообщение отправлено')
             current_timestamp = new_homework.get('current_date',
                                                  current_timestamp)
-            time.sleep(300)
+            time.sleep(1200)
 
         except Exception as e:
             print(f'Бот столкнулся с ошибкой: {e}')
-            send_message(f'Бот столкнулся с ошибкой: {e}', bot_client)
+            send_message(f'Бот столкнулся с ошибкой: {e}git', bot_client)
             logging.info('Сообщение с ошибкой отправлено')
             time.sleep(5)
 
