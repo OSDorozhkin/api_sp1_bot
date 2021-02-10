@@ -2,9 +2,9 @@ import logging
 import os
 import time
 
+from dotenv import load_dotenv
 import requests
 import telegram
-from dotenv import load_dotenv
 
 load_dotenv()
 
