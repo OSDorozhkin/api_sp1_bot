@@ -26,17 +26,22 @@ except ValueError:
 
 BASE_URL = 'https://praktikum.yandex.ru/'
 AD_HW_STATUS_URL = 'api/user_api/homework_statuses/'
+ANGRY = u'\U0001F620'
+SMILE = u'\U0001F603'
+MONKEY = u'\U0001F648'
 
 
 def parse_homework_status(homework):
-    homework_name = homework.get('homework_name')
+    homework_name = homework['lesson_name']
     if homework['status'] == 'reviewing':
-        return f'Вашу работу {homework_name} начали проверять.'
+        return f'Вашу работу {homework_name} начали проверять {MONKEY}.'
     if homework['status'] == 'rejected':
-        verdict = 'К сожалению в работе нашлись ошибки.'
+        verdict = f'Отклонено {ANGRY}. ' \
+                  f'Комментарий: {homework["reviewer_comment"]}'
     else:
-        verdict = ('Ревьюеру всё понравилось, можно приступать к следующему '
-                   'уроку.')
+        verdict = f'Принято {SMILE}. ' \
+                  f'Комментарий: {homework["reviewer_comment"]}'
+    logging.info('Сообщение сформировано')
     return f'У вас проверили работу "{homework_name}"!\n\n{verdict}'
 
 
