@@ -34,7 +34,7 @@ MONKEY = u'\U0001F648'
 def parse_homework_status(homework):
     homework_name = homework['lesson_name']
     if homework['status'] == 'reviewing':
-        return f'Вашу работу {homework_name} начали проверять {MONKEY}.'
+        return f'Вашу работу "{homework_name}" начали проверять {MONKEY}.'
     if homework['status'] == 'rejected':
         verdict = (f'Отклонено {ANGRY}. '
                    f'Комментарий: {homework["reviewer_comment"]}')
@@ -66,7 +66,7 @@ def send_message(message, bot_client):
 def main():
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     logging.debug('Бот запущен')
-    current_timestamp = int(time.time())
+    current_timestamp = 0
 
     while True:
         try:
