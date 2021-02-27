@@ -36,11 +36,11 @@ def parse_homework_status(homework):
     if homework['status'] == 'reviewing':
         return f'Вашу работу {homework_name} начали проверять {MONKEY}.'
     if homework['status'] == 'rejected':
-        verdict = f'Отклонено {ANGRY}. ' \
-                  f'Комментарий: {homework["reviewer_comment"]}'
+        verdict = (f'Отклонено {ANGRY}. '
+                   f'Комментарий: {homework["reviewer_comment"]}')
     else:
-        verdict = f'Принято {SMILE}. ' \
-                  f'Комментарий: {homework["reviewer_comment"]}'
+        verdict = (f'Принято {SMILE}. '
+                   f'Комментарий: {homework["reviewer_comment"]}')
     logging.info('Сообщение сформировано')
     return f'У вас проверили работу "{homework_name}"!\n\n{verdict}'
 
@@ -66,7 +66,7 @@ def send_message(message, bot_client):
 def main():
     bot = telegram.Bot(token=TELEGRAM_TOKEN)
     logging.debug('Бот запущен')
-    current_timestamp = int(0)
+    current_timestamp = int(time.time())
 
     while True:
         try:
